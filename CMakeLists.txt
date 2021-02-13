@@ -58,10 +58,15 @@ IF(HAVE_NDBM_H)
   CHECK_FUNCTION_EXISTS(dbm_open HAVE_DBM_OPEN)
   IF(NOT HAVE_DBM_OPEN)
     CHECK_LIBRARY_EXISTS(ndbm dbm_open "" LINK_NDBM)
+    CHECK_LIBRARY_EXISTS(gdbm_compat dbm_open "" LINK_GDBM_COMPAT)
     IF(LINK_NDBM)
       SET(COLD_LIBRARIES
           ${COLD_LIBRARIES}
           -lndbm)
+    ELSEIF(LINK_GDBM_COMPAT)
+    SET(COLD_LIBRARIES
+        ${COLD_LIBRARIES}
+        -lgdbm_compat)
     ENDIF()
   ENDIF()
 ELSEIF(HAVE_GDBM_NDBM_H)
